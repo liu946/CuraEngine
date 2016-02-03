@@ -187,6 +187,75 @@ public:
 
 class SliceDataStorage;
 
+/*
+ * New combing! :
+ * 
+ * Goals:
+ * - minimize distance crossed over other parts
+ * - minimize distance crossed over skin
+ * - minimize number of part boundary crossings
+ * - minimize part boundary crossing angle
+ * - minimize total travel distance
+ * 
+ * 
+ * 
+ * 
+ * =================================================================
+ * ===================== implementation ideas ======================
+ * =================================================================
+ * 
+ * 3 kind of zones:
+ * -Inside  (Infill or infill+skin)
+ * -No-go   (other parts, inbetween inside-outside, skin)
+ * -Outside (fully outside with a separation from all parts)
+ * 
+ * No-go needs to be minimized
+ * 
+ * Skip Outside if no-go crossed distance would be larger than direct
+ * 
+ * problem: There is no way to comb over another part in between;
+ * there is no in-between area to distinguish two parts so that you don't cross the boundary between those two parts.
+ * 
+ * =================================================================
+ * ========================= another idea ==========================
+ * =================================================================
+ * 
+ * 4 kind of zones:
+ * -Inside
+ * -Outside
+ * -In_between (between all parts and outside)
+ * -No-go (other parts, skin)
+ * 
+ * -No-go needs to be minimized
+ * AND
+ * 
+ * -crossings from no-go to in-between need to be minimized
+ * OR
+ * -crossings from no-go to outside need to be minimized
+ * 
+ * 
+ * 
+ * 
+ * =================================================================
+ * =================================================================
+ * =================================================================
+ * 
+ * 1) First try to comb within infill only
+ * 2) Then try to comb within infill+skin
+ * OR
+ * 2) Try to comb within infill toward the closest point in the end-points 
+ * 3) Then try to cross the border to outside with the seperation distance (approx.)
+ * 4) Then try to minimize moving over other parts
+ * 
+ * 1. See whether both points are within the infill of the same part
+ * 2. See whether both points are within the same part
+ * 3. Find/Check the first boundary crossing; is the crossing distance approx the sep dist?
+ * 4. See whether the (closest) distance from the end-points to outside is less than the direct distance between the parts.
+ * 
+ * 
+ */
+
+
 /*!
  * Class for generating a full combing actions from a travel move from a start point to an end point.
  * A single Comb object is used for each layer.

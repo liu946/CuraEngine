@@ -20,7 +20,10 @@
 
 namespace cura
 {
-    
+
+/**
+ * 打印使用方法
+ */
 void print_usage()
 {
     cura::logError("\n");
@@ -64,6 +67,9 @@ void print_call(int argc, char **argv)
     cura::logError("\n");
 }
 
+/**
+ * 主方法:链接
+ */
 void connect(int argc, char **argv)
 {
     CommandSocket::instantiate();
@@ -110,6 +116,9 @@ void connect(int argc, char **argv)
     CommandSocket::getInstance()->connect(ip, port);
 }
 
+/**
+ * 主方法:切片
+ */
 void slice(int argc, char **argv)
 {   
     FffProcessor::getInstance()->time_keeper.restart();

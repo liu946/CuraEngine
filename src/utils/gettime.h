@@ -28,7 +28,9 @@ private:
     double startTime;
 public:
     TimeKeeper();
-    
+    /**
+     * 返回和上次restart执行时的时间间隔
+     */
     double restart();
 };
 

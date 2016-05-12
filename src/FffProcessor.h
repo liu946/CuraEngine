@@ -16,11 +16,16 @@
 namespace cura {
 
 //FusedFilamentFabrication processor. Singleton class
+/**
+ *
+ */
 class FffProcessor : public SettingsBase , NoCopy
 {
 private:
     static FffProcessor instance; 
-    
+    /**
+     * 构造函数
+     */
     FffProcessor()
     : polygon_generator(this)
     , gcode_writer(this)
@@ -34,7 +39,7 @@ public:
     }
     
 private:
-    FffPolygonGenerator polygon_generator;
+    FffPolygonGenerator polygon_generator;//多边形生成器
     FffGcodeWriter gcode_writer;
     
     bool first_meshgroup;

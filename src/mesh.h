@@ -58,10 +58,10 @@ class Mesh : public SettingsBase // inherits settings
 {
     //! The vertex_hash_map stores a index reference of each vertex for the hash of that location. Allows for quick retrieval of points with the same location.
     std::unordered_map<uint32_t, std::vector<uint32_t> > vertex_hash_map;
-    AABB3D aabb;
+    AABB3D aabb;// 这个是用来计算所有顶点范围的,以便计算偏移
 public:
-    std::vector<MeshVertex> vertices;//!< list of all vertices in the mesh
-    std::vector<MeshFace> faces; //!< list of all faces in the mesh
+    std::vector<MeshVertex> vertices;//!< list of all vertices(顶点) in the mesh
+    std::vector<MeshFace> faces; //!< list of all faces in the mesh 记录了所有的面
 
     Mesh(SettingsBaseVirtual* parent); //!< initializes the settings
 
@@ -75,6 +75,7 @@ public:
     /*!
      * Offset the whole mesh (all vertices and the bounding box).
      * \param offset The offset byu which to offset the whole mesh.
+     * 给模型设置offset
      */
     void offset(Point3 offset)
     {

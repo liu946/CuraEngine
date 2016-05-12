@@ -27,7 +27,10 @@ void* fgets_(char* ptr, size_t len, FILE* f)
     }
     return nullptr;
 }
-
+/**
+ * 主要方法
+ * 加载文本文件到mesh
+ */
 bool loadMeshSTL_ascii(Mesh* mesh, const char* filename, FMatrix3x3& matrix)
 {
     FILE* f = fopen(filename, "rt");
@@ -35,6 +38,14 @@ bool loadMeshSTL_ascii(Mesh* mesh, const char* filename, FMatrix3x3& matrix)
     FPoint3 vertex;
     int n = 0;
     Point3 v0(0,0,0), v1(0,0,0), v2(0,0,0);
+    /*
+     * 代码来看,文本文件格式应该是如下
+     * solid
+     * vertex 1.0 1.5 2.5 # 这代表一个点,每三个点一组,组成一个面.
+     * vertex 1.2 1.2 2.1
+     * vertex 1.3 1.3 2.5
+     * ...
+     */
     while(fgets_(buffer, sizeof(buffer), f))
     {
         if (sscanf(buffer, " vertex %f %f %f", &vertex.x, &vertex.y, &vertex.z) == 3)
@@ -114,6 +125,14 @@ bool loadMeshSTL_binary(Mesh* mesh, const char* filename, FMatrix3x3& matrix)
     return true;
 }
 
+
+/**
+ * 将文件加载到 mesh中
+ * 使用文件开始的"solid"字符串区分文本/二进制文件.
+ * 调用如下方法
+ * loadMeshSTL_ascii(mesh, filename, matrix);
+ * loadMeshSTL_binary(mesh, filename, matrix);
+ */
 bool loadMeshSTL(Mesh* mesh, const char* filename, FMatrix3x3& matrix)
 {
     FILE* f = fopen(filename, "r");

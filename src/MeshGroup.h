@@ -18,7 +18,7 @@ namespace cura
 class MeshGroup : public SettingsBase, NoCopy
 {
     ExtruderTrain* extruders[MAX_EXTRUDERS] = {nullptr};
-    int extruder_count;
+    int extruder_count; //挤出机数量
 public:
     int getExtruderCount()
     {
@@ -52,6 +52,7 @@ public:
     {
         if (!extruders[extruder_nr])
         {
+            // 本类继承setting,可以把this传入当setting. ExtruderTrain 只是一个int的复写类
             extruders[extruder_nr] = new ExtruderTrain(this, extruder_nr);
         }
         return extruders[extruder_nr];
@@ -106,6 +107,9 @@ public:
         }
     }
 
+    /**
+     * 初始化完成后调用,为了将模型放置在中间.
+     */
     void finalize()
     {
         //If the machine settings have been supplied, offset the given position vertices to the center of vertices (0,0,0) is at the bed center.
@@ -137,7 +141,7 @@ public:
  * 
  * \param meshgroup The meshgroup where to store the mesh
  * \param filename The filename of the mesh file
- * \param transformation The transformation applied to all vertices
+ * \param transformation The transformation applied to all vertices 所有顶点的变换
  * \param object_parent_settings (optional) The parent settings object of the new mesh. Defaults to \p meshgroup if none is given.
  * \return whether the file could be loaded
  */
